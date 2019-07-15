@@ -7,5 +7,4 @@ class A(object):
 
 a = A()
 b = A()
-
 print (a, b)
