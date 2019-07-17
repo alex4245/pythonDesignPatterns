@@ -3,15 +3,6 @@ from abc import ABCMeta, abstractmethod
 class Handler:
     __metaclass__ = ABCMeta
     
-    _successor = None
-    def set_successor(self, successor):
-        self._successor = successor
-        return successor
-
-    def call_successor(self):
-        if self._successor:
-            self._successor.handle()
-
     @abstractmethod
     def handle(self):
         pass
@@ -20,24 +11,28 @@ class Handler:
 class HandlerA(Handler):
     def handle(self):
         print 'handleA'
-        self.call_successor()
 
 
 class HandlerB(Handler):
     def handle(self):
         print 'handleB'
-        self.call_successor()
 
 
-class HandlerC(Handler):
-    def handle(self):
-        print 'handleC'
-        self.call_successor()
+class Client:
+    def __init__(self):
+        self._lst_handlers = []
+
+    def add_handler(self, handler):
+        self._lst_handlers.append(handler)
+
+    def start_handle(self):
+        for h in self._lst_handlers:
+            h.handle()
 
 
-hA = HandlerA()
-hB = HandlerB()
-hC = HandlerC()
-
-hA.set_successor(hB).set_successor(hC)
-hA.handle()
+ha = HandlerA()
+hb = HandlerB()
+c = Client()
+c.add_handler(ha)
+c.add_handler(hb)
+c.start_handle()
