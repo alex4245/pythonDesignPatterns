@@ -1,9 +1,7 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 
-class Observable:
-    __metaclass__ = ABCMeta
-
+class Subject(ABC):
     def __init__(self):
         self._observers = []
 
@@ -15,17 +13,14 @@ class Observable:
             observer.update(message)
 
 
-class Observer:
-    __metaclass__ = ABCMeta
-
+class Observer(ABC):
     @abstractmethod
     def update(self):
         pass
 
 
-class Channel(Observable):
-    def add_message(self, message):
-        self.notify_observers(message)
+class Channel(Subject):
+   ...
 
 
 class User(Observer):
@@ -33,7 +28,7 @@ class User(Observer):
         self._username = username
 
     def update(self, message):
-        print '%s: %s' % (self._username, message)
+        print(f"{self._username}, {message}")
 
 
 channel = Channel()
@@ -41,4 +36,4 @@ u1 = User('user_1')
 u2 = User('user_2')
 channel.add_observer(u1)
 channel.add_observer(u2)
-channel.add_message('test')
+channel.notify_observers('test')
