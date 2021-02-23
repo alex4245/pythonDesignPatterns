@@ -1,3 +1,13 @@
+class Singleton:
+    instance = None
+    def __new__(cls):
+        if not cls.instance:
+            cls.instance = super().__new__(cls)
+        return cls.instance
+
+s1 = Singleton()
+s2 = Singleton()
+
 def singleton(cls):
     _instance = {}
     def get():
@@ -12,5 +22,6 @@ class A: pass
 a = A()
 b = A()
 
-print(a,b)
+
+
 
